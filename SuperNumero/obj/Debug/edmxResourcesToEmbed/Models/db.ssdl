@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="superNumeroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="numeros">
+    <Key>
+      <PropertyRef Name="idNumero" />
+    </Key>
+    <Property Name="idNumero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="numero" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="resultado" Type="int" Nullable="false" />
+    <Property Name="detalle" Type="varchar" MaxLength="100" />
+    <Property Name="fechayhora" Type="date" />
+    <Property Name="idUsuario" Type="int" />
+    <Property Name="fechaNueva" Type="datetime" />
+  </EntityType>
+  <EntityType Name="usuarios">
+    <Key>
+      <PropertyRef Name="idUsuario" />
+    </Key>
+    <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="pass" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="creacionUsuario" Type="date" Nullable="false" />
+    <Property Name="usuarioCreacion" Type="int" />
+  </EntityType>
+  <Association Name="FK_USUARIO">
+    <End Role="usuarios" Type="Self.usuarios" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="numeros" Type="Self.numeros" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="usuarios">
+        <PropertyRef Name="idUsuario" />
+      </Principal>
+      <Dependent Role="numeros">
+        <PropertyRef Name="idUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="superNumeroModelStoreContainer">
+    <EntitySet Name="numeros" EntityType="Self.numeros" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_USUARIO" Association="Self.FK_USUARIO">
+      <End Role="usuarios" EntitySet="usuarios" />
+      <End Role="numeros" EntitySet="numeros" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

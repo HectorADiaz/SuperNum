@@ -1,0 +1,126 @@
+﻿
+
+<h2>Historial</h2>
+
+<div class="row">
+
+    <div class="col-lg-12">
+        <table id="myTable" class="table table-bordered">
+            <thead>
+
+                <tr>
+                    <th>Numero</th>
+                    <th>Resultado</th>
+                    <th>FechayHora</th>
+
+
+                    <th></th>
+                </tr>
+            </thead>
+
+
+        </table>
+
+
+    </div>
+</div>
+
+@*
+        @section scripts{
+            <script>
+                 let fechaactual = data.fechayhora;
+
+                $(document).ready(function () {
+                    $('#tablaNumero').DataTable({
+                        "ajax": {
+                            "url": "@Url.Action("Listar", "numero")",
+                            "type": "GET",
+                            "datatype": "json"
+                        },
+
+                        "columns": [
+                        { "data": "numero" },
+                            { "data": "resultado" },
+                            { "data": "fechayhora"},
+                        { "data": "idUsuario", "render": function (data) {
+                                return "<button class='btn btn-primary btn-sm' type='button' onclick='abrirModal(" + data + ")'><i class='fas fa-pen'></i></button>" +
+                                    "<button class='btn btn-danger btn-sm ml-2' type='button' onclick='Eliminar(" + data + ")'><i class='fa fa-trash'></i></button>"
+                            },
+                            "orderable": false,
+                            "searchable": false,
+                            "width": "150px"
+                            }
+
+
+                    ],
+
+                });
+
+            });
+
+            </script>
+
+
+
+
+    }
+*@
+
+
+
+
+@section scripts{
+
+    <script>
+        var tabla_persona;
+         $(document).ready( function () {
+             tabla_persona = $('#myTable').DataTable({
+                "ajax": {
+                    "url": "@Url.Action("Listar", "numero")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "numero" },
+                    { "data": "resultado" },
+                    { "data": "fechayhora"},
+
+
+                    { "data": "idUsuario", "render": function (data) {
+                            return "<button class='btn btn-primary btn-sm' type='button' onclick='abrirModal(" + data + ")'><i class='fas fa-pen'></i></button>" +
+                                "<button class='btn btn-danger btn-sm ml-2' type='button' onclick='Eliminar(" + data + ")'><i class='fa fa-trash'></i></button>"
+                        },
+                        "orderable": false,
+                        "searchable": false,
+                        "width": "150px"
+                    }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Agregar Nuevo',
+                        attr: { class: 'btn btn-success btn-sm' },
+                        action: function (e, dt, node, config) {
+                            abrirModal(0)
+                        }
+                    }
+                 ],
+                 "language": {
+                     "url": "@Url.Content("~/Content/datatable/idioma/datatable.es-ES.json")"
+                 }
+
+            });
+        });
+
+
+      
+
+        
+
+    </script>
+
+
+
+}
+
+

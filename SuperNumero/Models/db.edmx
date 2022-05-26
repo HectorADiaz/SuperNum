@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="superNumeroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="numeros">
+          <Key>
+            <PropertyRef Name="idNumero" />
+          </Key>
+          <Property Name="idNumero" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numero" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="resultado" Type="int" Nullable="false" />
+          <Property Name="detalle" Type="varchar" MaxLength="100" />
+          <Property Name="fechayhora" Type="date" />
+          <Property Name="idUsuario" Type="int" />
+          <Property Name="fechaNueva" Type="datetime" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="creacionUsuario" Type="date" Nullable="false" />
+          <Property Name="usuarioCreacion" Type="int" />
+        </EntityType>
+        <Association Name="FK_USUARIO">
+          <End Role="usuarios" Type="Self.usuarios" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="numeros" Type="Self.numeros" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="numeros">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="superNumeroModelStoreContainer">
+          <EntitySet Name="numeros" EntityType="Self.numeros" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="usuarios" EntityType="Self.usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_USUARIO" Association="Self.FK_USUARIO">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="numeros" EntitySet="numeros" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="superNumeroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="superNumeroEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="numeros" EntityType="superNumeroModel.numeros" />
+          <EntitySet Name="usuarios" EntityType="superNumeroModel.usuarios" />
+          <AssociationSet Name="FK_USUARIO" Association="superNumeroModel.FK_USUARIO">
+            <End Role="usuarios" EntitySet="usuarios" />
+            <End Role="numeros" EntitySet="numeros" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="numeros">
+          <Key>
+            <PropertyRef Name="idNumero" />
+          </Key>
+          <Property Name="idNumero" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numero" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="resultado" Type="Int32" Nullable="false" />
+          <Property Name="detalle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fechayhora" Type="DateTime" Precision="0" />
+          <Property Name="idUsuario" Type="Int32" />
+          <Property Name="fechaNueva" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="usuarios" Relationship="superNumeroModel.FK_USUARIO" FromRole="numeros" ToRole="usuarios" />
+        </EntityType>
+        <EntityType Name="usuarios">
+          <Key>
+            <PropertyRef Name="idUsuario" />
+          </Key>
+          <Property Name="idUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="pass" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="creacionUsuario" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="usuarioCreacion" Type="Int32" />
+          <NavigationProperty Name="numeros" Relationship="superNumeroModel.FK_USUARIO" FromRole="usuarios" ToRole="numeros" />
+        </EntityType>
+        <Association Name="FK_USUARIO">
+          <End Type="superNumeroModel.usuarios" Role="usuarios" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="superNumeroModel.numeros" Role="numeros" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="usuarios">
+              <PropertyRef Name="idUsuario" />
+            </Principal>
+            <Dependent Role="numeros">
+              <PropertyRef Name="idUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="superNumeroModelStoreContainer" CdmEntityContainer="superNumeroEntities">
+          <EntitySetMapping Name="numeros">
+            <EntityTypeMapping TypeName="superNumeroModel.numeros">
+              <MappingFragment StoreEntitySet="numeros">
+                <ScalarProperty Name="fechaNueva" ColumnName="fechaNueva" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+                <ScalarProperty Name="fechayhora" ColumnName="fechayhora" />
+                <ScalarProperty Name="detalle" ColumnName="detalle" />
+                <ScalarProperty Name="resultado" ColumnName="resultado" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="idNumero" ColumnName="idNumero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="usuarios">
+            <EntityTypeMapping TypeName="superNumeroModel.usuarios">
+              <MappingFragment StoreEntitySet="usuarios">
+                <ScalarProperty Name="usuarioCreacion" ColumnName="usuarioCreacion" />
+                <ScalarProperty Name="creacionUsuario" ColumnName="creacionUsuario" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idUsuario" ColumnName="idUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
